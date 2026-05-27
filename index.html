@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title> Only Ours ♡</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				background: #fdf8f4;
+				font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+				color: #7a5a52;
+				min-height: 100vh;
+			}
+
+			.tl-img {
+			  width: 100%;
+			  max-width: 160px;
+			  border-radius: 12px;
+			  margin-top: 10px;
+			  object-fit: cover;
+			  border: 6px solid white;
+			  box-shadow: 0 2px 10px rgba(200,120,112,0.15);
+			}
+			
+			.tl-content {
+			  display: flex;
+			  gap: 12px;
+			  align-items: flex-start;
+			}
+			.tl-note {
+			  flex: 1;   /* 文字占左侧 */
+			}
+			.tl-imgs {
+			  display: flex;
+			  flex-direction: column;
+			  gap: 8px;
+			  flex-shrink: 0;
+			}
+			
+
+			/* ==================== LANDING ==================== */
+			#landing {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 3rem 2rem;
+				position: relative;
+				overflow: hidden;
+			}
+
+			#landing::before {
+				content: '♡';
+				position: absolute;
+				font-size: 260px;
+				color: #f9e8e8;
+				top: -40px;
+				right: -30px;
+				pointer-events: none;
+				line-height: 1;
+			}
+
+			.landing-tagline {
+				font-size: 11px;
+				letter-spacing: 4px;
+				color: #c9a89a;
+				margin-bottom: 1.8rem;
+				text-transform: uppercase;
+			}
+
+			.landing-title {
+				font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+				font-size: 26px;
+				color: #7a5a52;
+				text-align: center;
+				line-height: 2;
+				max-width: 320px;
+				margin-bottom: 0.6rem;
+			}
+
+			.landing-sub {
+				font-size: 13px;
+				color: #b89e96;
+				margin-bottom: 3rem;
+				text-align: center;
+				line-height: 1.9;
+			}
+
+			.start-btn {
+				background: #e8a098;
+				color: white;
+				border: none;
+				border-radius: 30px;
+				padding: 15px 40px;
+				font-size: 15px;
+				cursor: pointer;
+				letter-spacing: 1px;
+				font-family: inherit;
+				transition: transform 0.2s, background 0.2s;
+			}
+
+			.start-btn:hover {
+				background: #d4867e;
+				transform: scale(1.04);
+			}
+
+			.start-btn:active {
+				transform: scale(0.97);
+			}
+
+			/* floating hearts */
+			.fh {
+				position: absolute;
+				font-size: 18px;
+				color: #e8a098;
+				opacity: 0.2;
+				animation: floatUp 5s infinite ease-in-out;
+				pointer-events: none;
+			}
+
+			@keyframes floatUp {
+				0% {
+					transform: translateY(0) scale(1);
+					opacity: 0.2;
+				}
+
+				50% {
+					opacity: 0.35;
+				}
+
+				100% {
+					transform: translateY(-70px) scale(0.6);
+					opacity: 0;
+				}
+			}
+
+			/* ==================== MAIN ==================== */
+			#main {
+				display: none;
+			}
+
+			/* NAV */
+			.nav {
+				position: sticky;
+				top: 0;
+				z-index: 100;
+				display: flex;
+				gap: 8px;
+				padding: 14px 16px;
+				background: rgba(253, 248, 244, 0.95);
+				border-bottom: 1px solid #f0e4d9;
+				overflow-x: auto;
+				scrollbar-width: none;
+				backdrop-filter: blur(8px);
+			}
+
+			.nav::-webkit-scrollbar {
+				display: none;
+			}
+
+			.nav-btn {
+				background: none;
+				border: 1px solid #e8cfc8;
+				border-radius: 20px;
+				padding: 7px 16px;
+				font-size: 13px;
+				color: #a08880;
+				cursor: pointer;
+				white-space: nowrap;
+				font-family: inherit;
+				transition: all 0.2s;
+			}
+
+			.nav-btn.active,
+			.nav-btn:hover {
+				background: #e8a098;
+				color: white;
+				border-color: #e8a098;
+			}
+
+			/* SECTIONS */
+			.section {
+				display: none;
+				padding: 30px 20px 48px;
+			}
+
+			.section.active {
+				display: block;
+			}
+
+			.section-title {
+				font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+				font-size: 24px;
+				color: #7a5a52;
+				margin-bottom: 4px;
+			}
+
+			.section-desc {
+				font-size: 12px;
+				color: #c0a098;
+				margin-bottom: 26px;
+				letter-spacing: 0.5px;
+			}
+
+			/* ==================== TIMELINE ==================== */
+			.timeline {
+				position: relative;
+				padding-left: 30px;
+			}
+
+			.timeline::before {
+				content: '';
+				position: absolute;
+				left: 9px;
+				top: 8px;
+				bottom: 8px;
+				width: 1.5px;
+				background: linear-gradient(to bottom, #e8a098, #f5d5d0, #e8c0b8);
+			}
+
+			.tl-item {
+				position: relative;
+				margin-bottom: 32px;
+			}
+
+			.tl-dot {
+				position: absolute;
+				left: -26px;
+				top: 5px;
+				width: 14px;
+				height: 14px;
+				border-radius: 50%;
+				background: #e8a098;
+				border: 3px solid #fdf8f4;
+				box-shadow: 0 0 0 2px #e8c0b8;
+			}
+
+			.tl-date {
+				font-size: 11px;
+				color: #c9a89a;
+				letter-spacing: 1px;
+				margin-bottom: 4px;
+			}
+
+			.tl-event {
+				font-size: 16px;
+				font-weight: 500;
+				color: #7a5a52;
+				margin-bottom: 6px;
+			}
+
+			.tl-note {
+				font-size: 13px;
+				color: #a08880;
+				line-height: 1.8;
+				background: #fff8f5;
+				border-radius: 12px;
+				padding: 12px 16px;
+				border-left: 3px solid #f5d5d0;
+			}
+
+			/* ==================== TAG CLOUD ==================== */
+			.tag-cloud {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-bottom: 20px;
+			}
+
+			.tag {
+				background: #fff0ee;
+				border: 1px solid #f5c8c0;
+				border-radius: 20px;
+				padding: 8px 18px;
+				font-size: 14px;
+				color: #c0706a;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+
+			.tag:hover,
+			.tag.active {
+				background: #e8a098;
+				color: white;
+				border-color: #e8a098;
+				transform: scale(1.05);
+			}
+
+			.tag-popup {
+				background: #fff8f5;
+				border: 1px solid #f0d8d4;
+				border-radius: 16px;
+				padding: 18px 20px;
+				font-size: 13px;
+				color: #9a7068;
+				line-height: 1.9;
+				min-height: 60px;
+			}
+
+			.tag-popup .tw {
+				font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+				font-size: 17px;
+				color: #c87870;
+				display: block;
+				margin-bottom: 4px;
+			}
+
+			/* ==================== INTERACT ==================== */
+			.interact-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 14px;
+				margin-bottom: 14px;
+			}
+
+			.interact-card {
+				background: #fff8f5;
+				border: 1px solid #f0dcd8;
+				border-radius: 18px;
+				padding: 22px 14px;
+				text-align: center;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+
+			.interact-card:hover {
+				background: #fdf0ee;
+				transform: translateY(-2px);
+				border-color: #e8a098;
+			}
+
+			.interact-card:active {
+				transform: scale(0.97);
+			}
+
+			.ic-icon {
+				font-size: 30px;
+				margin-bottom: 8px;
+			}
+
+			.ic-label {
+				font-size: 12px;
+				color: #c0a098;
+				margin-bottom: 12px;
+				line-height: 1.6;
+			}
+
+			.ic-btn {
+				background: #e8a098;
+				color: white;
+				border: none;
+				border-radius: 20px;
+				padding: 8px 18px;
+				font-size: 12px;
+				cursor: pointer;
+				font-family: inherit;
+				transition: background 0.2s;
+			}
+
+			.ic-btn:hover {
+				background: #d4867e;
+			}
+
+			.ic-result {
+				margin-top: 10px;
+				font-size: 13px;
+				color: #a07870;
+				line-height: 1.7;
+				min-height: 18px;
+				white-space: pre-line;
+			}
+
+			/* ==================== COMPLIMENT ==================== */
+			.compliment-box {
+				background: #fff8f5;
+				border: 1.5px dashed #e8c0b8;
+				border-radius: 18px;
+				padding: 28px 20px;
+				text-align: center;
+				margin-bottom: 18px;
+				min-height: 100px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.compliment-text {
+				font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+				font-size: 22px;
+				color: #c87870;
+				line-height: 1.9;
+				white-space: pre-line;
+			}
+
+			.compliment-btn {
+				display: block;
+				width: 100%;
+				background: #e8a098;
+				color: white;
+				border: none;
+				border-radius: 30px;
+				padding: 14px;
+				font-size: 15px;
+				cursor: pointer;
+				font-family: inherit;
+				letter-spacing: 1px;
+				transition: background 0.2s;
+			}
+
+			.compliment-btn:hover {
+				background: #d4867e;
+			}
+
+			/* ==================== HEARTS RAIN ==================== */
+			.hearts-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				pointer-events: none;
+				z-index: 9999;
+				overflow: hidden;
+			}
+
+			.rain-heart {
+				position: absolute;
+				animation: rainDown 2.2s ease-in forwards;
+				opacity: 0;
+			}
+
+			@keyframes rainDown {
+				0% {
+					transform: translateY(-30px) rotate(0deg);
+					opacity: 1;
+				}
+
+				80% {
+					opacity: 0.7;
+				}
+
+				100% {
+					transform: translateY(105vh) rotate(200deg);
+					opacity: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="hearts-overlay" id="heartsOverlay"></div>
+
+		<!-- ========== LANDING ========== -->
+		<div id="landing">
+			<!-- 装饰小爱心，可以增减 -->
+			<span class="fh" style="left:8%;top:12%;animation-delay:0s">♡</span>
+			<span class="fh" style="left:18%;top:68%;animation-delay:1.5s">♡</span>
+			<span class="fh" style="left:75%;top:20%;animation-delay:0.8s">♡</span>
+			<span class="fh" style="left:85%;top:72%;animation-delay:2.2s">♡</span>
+			<span class="fh" style="left:48%;top:8%;animation-delay:3s">♡</span>
+			<span class="fh" style="left:62%;top:82%;animation-delay:1.1s">♡</span>
+
+			<div class="landing-tagline">only for you</div>
+
+			<!--
+    ✏️ 修改下面这句开场白
+  -->
+			<div class="landing-title">
+				Hi Dk
+			</div>
+
+			<!--
+    ✏️ 修改副标题
+  -->
+			<div class="landing-sub">
+				我把一些想说的话，悄悄放在这了哦<br>
+				认识你开始，我的生活就多了一条很甜的时间线呢！
+			</div>
+
+			<button class="start-btn" onclick="goMain()">Click!</button>
+		</div>
+
+
+		<!-- ========== MAIN ========== -->
+		<div id="main">
+			<nav class="nav">
+				<button class="nav-btn active" onclick="showSection('timeline', this)">♡ Our Story~ </button>
+				<button class="nav-btn" onclick="showSection('tags', this)">✦ Keywords </button>
+				<button class="nav-btn" onclick="showSection('interact', this)">◎ Interactive Area </button>
+				<button class="nav-btn" onclick="showSection('compliment', this)">✶ Daily Praise </button>
+			</nav>
+
+
+			<!-- ====== 时间轴 ====== -->
+			<div class="section active" id="timeline">
+				<div class="section-title"> Our Story~ </div>
+				<div class="section-desc">时间变得不一样了呢</div>
+
+				<div class="timeline">
+
+					<!--
+        ✏️ 时间轴节点格式：
+        tl-date  → 填日期或描述，比如 "2023年9月3日" 或 "第一次认识"
+        tl-event → 这个节点的标题
+        tl-note  → 配套的一句话/回忆
+        可以复制整个 tl-item 块来新增节点，删除不需要的
+      -->
+
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">第一次聊天呀</div>
+						<div class="tl-event">第一条消息</div>
+						<div class="tl-content">
+							<div class="tl-note">当时没想太多，现在翻回去看，才发现命运的齿轮开始转动啦，小气鬼听不懂我的暗示，还真要等我一周跟我聊天，嘻嘻~</div>
+							<div class="tl-imgs">
+								<img src="img/1.jpg" class="tl-img" />
+							</div>
+						</div>		
+					</div>
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">第一次见面了哦-浦东机场</div>
+						<div class="tl-event">真实的你</div>
+						 <div class="tl-content">
+								<div class="tl-note">你比想象中更让人放松呢，还给我买了鲸鱼宝宝的盲盒，好喜欢，但又好愧疚没给你拿什么小礼物，情商好高呀小宝宝我都没有想到~</div>
+							<div class="tl-imgs">	
+								<img src="img/2.jpg" class="tl-img" />
+							</div>
+						</div>
+					</div>
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">第一次一起吃饭呀</div>
+						<div class="tl-event">坐在你对面嘻嘻</div>
+						<div class="tl-content">
+								<div class="tl-note">已经很饿了当时，我弄了很多菜叶，你一脸的不可置信哈哈哈哈，让我多吃肉呢~</div>
+							<div class="tl-imgs">
+								<img src="img/3.jpg" class="tl-img" />
+							</div>
+						</div>		
+					</div>
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">一起过520耶恰巧我过生日嘻嘻~</div>
+						<div class="tl-event">开心开心谢谢你的付出呢</div>
+						<div class="tl-content">
+							<div class="tl-note">心跳加速，然后想笑，我们去吃你用心订的但是饭菜难吃的餐厅哈哈哈</div>
+						<div class="tl-imgs">
+							<img src="img/4.jpg" class="tl-img" />
+							</div>
+						</div>	
+					</div>
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">第一次旅行</div>
+						<div class="tl-event">在邮轮上呢！</div>
+						<div class="tl-content">
+							<div class="tl-note">偷偷拍的你的一张，还给妈妈发了好看呢哈哈哈哈很惬意了丁总</div>
+							<div class="tl-imgs">
+						<img src="img/5.jpg" class="tl-img" />
+							</div>
+						</div>
+					</div>
+
+					<div class="tl-item">
+						<div class="tl-dot"></div>
+						<div class="tl-date">普通的下午</div>
+						<div class="tl-event">那个让我感动的瞬间</div>
+						<div class="tl-content">
+							<div class="tl-note">你什么都没说，就那样坐在我旁边，我突然觉得，这就够了啦~</div>
+							<div class="tl-imgs">
+								<img src="img/6.png" class="tl-img" />
+							</div>
+						</div>
+					</div>
+
+					<!-- 在这里继续新增 tl-item ... -->
+
+				</div>
+			</div>
+
+
+			<!-- ====== 关键词 ====== -->
+			<div class="section" id="tags">
+				<div class="section-title">Our Keywords</div>
+				<div class="section-desc">点一个词，看看我想说什么呀！老公~</div>
+
+				<!--
+      ✏️ 关键词标签
+      onclick="showTag('词')" 和下面 JS 里的 tagMessages 的 key 要保持一致
+      可以增删标签
+    -->
+				<div class="tag-cloud">
+					<span class="tag" onclick="showTag('晚安')">晚安哦</span>
+					<span class="tag" onclick="showTag('抱抱')">抱抱 come on!</span>
+					<span class="tag" onclick="showTag('吵架但和好')">不要吵架啦！</span>
+					<span class="tag" onclick="showTag('想你')">想你啦</span>
+					<span class="tag" onclick="showTag('一起吃饭')">一起吃饭</span>
+					<span class="tag" onclick="showTag('笨蛋')">笨蛋呀你</span>
+					<span class="tag" onclick="showTag('宝宝')">宝宝！！</span>
+					<span class="tag" onclick="showTag('以后')">以后昂</span>
+					<span class="tag" onclick="showTag('旅行')">旅行呦</span>
+					<span class="tag" onclick="showTag('小脾气')">大发小脾气</span>
+
+				</div>
+
+				<div class="tag-popup" id="tagPopup">
+					<span class="tw">← 点击一个词</span>你猜猜我要说什么
+				</div>
+			</div>
+
+
+			<!-- ====== 互动 ====== -->
+			<div class="section" id="interact">
+				<div class="section-title">点一点</div>
+				<div class="section-desc">有小小惊喜等着你呦</div>
+
+				<div class="interact-grid">
+
+					<!--
+        ✏️ 修改 ic-label（按钮说明）和 ic-result 里的文字（在 JS doHug / doLove 函数里改）
+      -->
+
+					<div class="interact-card">
+						<div class="ic-icon">🫂</div>
+						<div class="ic-label">需要一个抱抱嘛！</div>
+						<button class="ic-btn" onclick="doHug()">点我点我点我</button>
+						<div class="ic-result" id="hugResult"></div>
+					</div>
+
+					<div class="interact-card">
+						<div class="ic-icon">♡</div>
+						<div class="ic-label">想知道我有多喜欢你嘛</div>
+						<button class="ic-btn" onclick="doLove()">点我点我点我</button>
+						<div class="ic-result" id="loveResult"></div>
+					</div>
+
+				</div>
+			</div>
+
+
+			<!-- ====== 今日夸夸 ====== -->
+			<div class="section" id="compliment">
+				<div class="section-title">今日夸夸</div>
+				<div class="section-desc">每次领取都不一样呦</div>
+
+				<div class="compliment-box">
+					<div class="compliment-text" id="complimentText">
+						点下面的按钮，领取今日专属夸夸 ♡
+					</div>
+				</div>
+
+				<button class="compliment-btn" onclick="getCompliment()">领取今日夸夸 嘿嘿！✦</button>
+			</div>
+
+		</div><!-- end #main -->
+
+
+		<script>
+			/* =====================================================
+     ✏️ 关键词对应的回应文字
+     格式：'词': '对应的话'
+     增删要和上面 HTML 里的 tag 一一对应
+  ===================================================== */
+			const tagMessages = {
+				'晚安': '每一句晚安都很普通，但从你那里发来的就不一样，像是今天又可以在熬一熬夜晚了哈哈哈。',
+				'抱抱': '很有安全感呢对不对呀',
+				'吵架但和好': '理不直气状嘿嘿！',
+				'想你': '有时候不说不代表不想你哦~',
+				'一起吃饭': '在一起吃土豆脊骨汤咋样呀老公~',
+				'笨蛋': '你明明很聪明的，但就是会在我面前犯傻，生气，生气的点莫名其妙',
+				'宝宝': '叫你宝宝的时候，有点心软呼呼滴嘿嘿',
+				'以后': '我说"以后"的时候，想的都是你可以陪着我呢',
+				'旅行': '好想和你再去一个新地方呀哪里呢哪里呢，但是如果我做攻略全是事故',
+				'小脾气': '你偶尔的小脾气，其实我觉得有点可爱，想欺负嘿嘿',
+			};
+
+
+			/* =====================================================
+			   ✏️ 互动按钮文字
+			   doHug  → 点"抱抱"后显示的话
+			   doLove → 点"喜欢"后显示的话
+			===================================================== */
+			function doHug() {
+				document.getElementById('hugResult').textContent = '抱抱你哦。\n今天宝宝玩的也辛苦啦';
+				rainHearts(10);
+			}
+
+			function doLove() {
+				document.getElementById('loveResult').textContent = '比昨天多一点呢 \n比明天少一点嘻嘻';
+				rainHearts(22);
+			}
+
+
+			/* =====================================================
+			   ✏️ 今日夸夸文案列表
+			   在数组里增删句子，每次点击随机一条
+			===================================================== */
+			const compliments = [
+				'你真的很可爱哦 \n就那种想欺负死的可爱。',
+				'你给我按摩的样子\n好像也不错哈哈哈哈丁师傅',
+				'我很喜欢\n和你待在一起的感觉嘿嘿很舒服',
+				'你笑起来的时候\n想亲亲',
+				'你比你自己想的\n要帅很多呢，我想给你拍很多照片',
+				'今天你也玩的辛苦了。\n我在这里呀~',
+				'和你在一起\n很多事情都变得简单了但又有很多事情复杂起来了',
+				'你是我觉得很幸运\n遇见的那中可爱的小狗狗！。'
+			];
+
+
+			/* ===================== 以下逻辑部分不需要修改 ===================== */
+
+			function goMain() {
+				document.getElementById('landing').style.display = 'none';
+				document.getElementById('main').style.display = 'block';
+			}
+
+			function showSection(id, btn) {
+				document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+				document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+				document.getElementById(id).classList.add('active');
+				btn.classList.add('active');
+			}
+
+			function showTag(word) {
+				document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+				event.currentTarget.classList.add('active');
+				const popup = document.getElementById('tagPopup');
+				const msg = tagMessages[word] || '（这个词还没有写故事）';
+				popup.innerHTML = '<span class="tw">' + word + '</span>' + msg;
+			}
+
+			function getCompliment() {
+				const text = compliments[Math.floor(Math.random() * compliments.length)];
+				document.getElementById('complimentText').textContent = text;
+				rainHearts(8);
+			}
+
+			function rainHearts(count) {
+				const overlay = document.getElementById('heartsOverlay');
+				const icons = ['♡', '♥', '❤', '💕', '✿'];
+				for (let i = 0; i < count; i++) {
+					const h = document.createElement('div');
+					h.className = 'rain-heart';
+					h.textContent = icons[Math.floor(Math.random() * icons.length)];
+					h.style.left = (5 + Math.random() * 90) + '%';
+					h.style.top = '-30px';
+					h.style.fontSize = (14 + Math.random() * 16) + 'px';
+					h.style.color = ['#e8a098', '#f5c0b8', '#d4867e', '#f0a8a0'][Math.floor(Math.random() * 4)];
+					h.style.animationDelay = (Math.random() * 1.4) + 's';
+					h.style.animationDuration = (1.8 + Math.random() * 1) + 's';
+					overlay.appendChild(h);
+					setTimeout(() => h.remove(), 4000);
+				}
+			}
+		</script>
+	</body>
+</html>
